@@ -1,7 +1,6 @@
-// API Key Google: AIzaSyC3bJ2vwET_bqUOaa5kzlkQ1_Dodn8YAAs
-
 import React from 'react';
 import ReactDOM from 'react-dom';
+import API from './API';
 import './index.css';
 
 class AddressForm extends React.Component{
@@ -9,33 +8,37 @@ class AddressForm extends React.Component{
 		super(props);
 		this.state = {
 			address: {
-				firstDestination: null,
-				lastDestination: null
+				origin: null,
+				destination: null
 			}
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	handleSubmit(event){
+	async handleSubmit(event){
 		this.setState({
 			address:{
-				firstDestination: this.firstDestinationInput.value,
-				lastDestination: this.lastDestinationInput.value
+				origin: this.originInput.value,
+				destination: this.destinationInput.value
 			}
 		});
 		event.preventDefault();
+		let latLngOrigin = await API.geoCode(this.state.address.origin);
+		let latLngDestination = await API.geoCode(this.state.address.destination);
+		console.log(latLngOrigin);
+		console.log(latLngDestination);
 	}
 
 	render(){
 		return(
 			<div>
 				<form onSubmit= {this.handleSubmit}>
-					First Destination:
-					<input type = "text" ref={(ref) => this.firstDestinationInput = ref} /> 		
+					Origin:
+					<input type = "text" ref={(ref) => this.originInput = ref} /> 		
 					<br />
-					Last Destination:
-					<input type = "text" ref={(ref) => this.lastDestinationInput = ref} />
+					Destination:
+					<input type = "text" ref={(ref) => this.destinationInput = ref} />
 					<br />
 					<input type="submit" value="Submit" />
 				</form>
@@ -45,28 +48,14 @@ class AddressForm extends React.Component{
 	}
 }
 
-function geoCode(address){
-	var latLong= this.serverRequest
-				.get("https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyC3bJ2vwET_bqUOaa5kzlkQ1_Dodn8YAAs")
-				.then(function(result){
-
-				});
-}
-
-function getFareEstimate(address){
-	return address.firstDestination + ' + ' + address.lastDestination;
-}
-
-function outputFare(address){
-	if(address.firstDestination == null || address.lastDestination == null){
-		return <p> No input </p>;
-	}
-	else{
-		return <p> Addresses: {getFareEstimate(address)} </p>;
-	}
-}
-
-// <Greeting />
+// function outputFare(address){
+// 	if(address.origin == null || address.destination == null){
+// 		return <p> No input </p>;
+// 	}
+// 	else{
+// 		return <p> Addresses: {getFareEstimate(address)} </p>;
+// 	}
+// }
 
 ReactDOM.render(
 	<div>
