@@ -8,8 +8,7 @@ class API {
 
   static async matrix(){
 	  try{
-		    // let url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=54%20East%2092nd%20Street&destinations=Times%20Square&mode=driving&language=en-EN&key=${process.env.REACT_APP_GOOGLE_TOKEN_MATRIX}`;
-			let url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=54%20East%2092nd%20Street&destinations=Times%20Square&mode=driving&language=en-EN&key=AIzaSyAqtshuX8bnlNjupHCH2YkH1dOgc8RxssQ";
+		    let url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=54%20East%2092nd%20Street&destinations=Times%20Square&mode=driving&language=en-EN&key=${process.env.REACT_APP_GOOGLE_TOKEN_MATRIX}`;
 			let response = await fetch(url);
 			let json = await response.json();
 			return json.rows[0].elements[0].distance.value;
