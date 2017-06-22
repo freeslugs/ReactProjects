@@ -28,11 +28,15 @@ class AddressForm extends React.Component{
 		let latLngDestination = await API.geoCode(this.state.address.destination);
 		console.log(latLngOrigin);
 		console.log(latLngDestination);
+
+		console.log(await API.fareEstimate(5, 5));
+		await API.matrix();
 	}
 
 	render(){
 		return(
 			<div>
+
 				<form onSubmit= {this.handleSubmit}>
 					Origin:
 					<input type = "text" ref={(ref) => this.originInput = ref} /> 		
@@ -42,7 +46,7 @@ class AddressForm extends React.Component{
 					<br />
 					<input type="submit" value="Submit" />
 				</form>
-				{outputFare(this.state.address)}
+				{/*outputFare(this.state.address)*/}
 			</div>
 			);
 	}
