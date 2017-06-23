@@ -5,6 +5,7 @@
   "dependencies": {
     "google-distance": "^1.0.1",
     "is-promise": "^2.1.0",
+    "node-fetch": "^1.7.1",
     "react": "^15.6.0",
     "react-dom": "^15.6.0",
     "rx": "^4.1.0"

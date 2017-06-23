@@ -31,6 +31,7 @@ class AddressForm extends React.Component{
 
 		console.log(await API.fareEstimate(5, 5));
 		await API.matrix();
+		// console.log(await API.uberAPI());
 	}
 
 	render(){

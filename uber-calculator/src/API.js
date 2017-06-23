@@ -29,6 +29,18 @@ class API {
   		return price;
   }
 
+  static async uberAPI(){
+	let response = fetch("https://api.uber.com/v1.2/estimates/price?start_latitude=37.7752315&start_longitude=-122.418075&end_latitude=37.7752415&end_longitude=-122.518075", {
+	  		header: {
+	    	"Accept-Language": "en_US",
+	   		 "Authorization": `${process.env.REACT_APP_UBER_API}`,
+	    	"Content-Type": "application/json"
+	  	}
+		});
+	let json = await response.json();
+	return json;
+  }
+
 }
 
 export default API;
