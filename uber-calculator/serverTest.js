@@ -10,11 +10,14 @@ app.get('/', async function(req, res){
 		let response = await fetch(url, 
 					{method: 'GET',
 					headers: {
-						'addresses': "NYC"
+						'origin': '54 East 92nd Street',
+						'destination': '75th and park'
 					}
 				});
-
-		res.send(response);
+		let json = await response.json();
+		await console.log(json);
+		let output = JSON.stringify(json);
+		await res.send(`Server Data: ${output}`);
 	}
 	catch(error){
 		console.log(error);

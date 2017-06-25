@@ -30,7 +30,7 @@ class AddressForm extends React.Component{
 		console.log(latLngDestination);
 
 		console.log(await API.fareEstimate(5, 5));
-		await API.matrix();
+		console.log(await API.matrix(this.state.address.origin, this.state.address.destination));
 		// console.log(await API.uberAPI());
 	}
 

@@ -6,18 +6,26 @@ class API {
     return json.results[0].geometry.location;
   }
 
-  static async matrix(){
+  static async matrix(origin, destination){
 	  try{
-		    let url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=54%20East%2092nd%20Street&destinations=Times%20Square&mode=driving&language=en-EN&key=${process.env.REACT_APP_GOOGLE_TOKEN_MATRIX}`;
-			let response = await fetch(url);
-			let json = await response.json();
-			return json.rows[0].elements[0].distance.value;
-		}
-		catch(error){
-			console.log("error");
-		}
-
+    let url = "http://localhost:8000";
+    console.log("1");
+    let response = await fetch(url, 
+          {method: 'GET',
+          headers: {
+            'origin': origin,
+            'destination': destination
+          }
+        });
+    let json = await response.json();
+    await console.log(json);
+    let output = JSON.stringify(json);
+    return output;
   }
+  catch(error){
+    console.log(error);
+  }
+}
 
   static async fareEstimate(duration, distance){
   		//Average Price for an UberX in USD
@@ -29,7 +37,7 @@ class API {
   		return price;
   }
 
-  static async uberAPI(){
+ /* static async uberAPI(){
 	let response = fetch("https://api.uber.com/v1.2/estimates/price?start_latitude=37.7752315&start_longitude=-122.418075&end_latitude=37.7752415&end_longitude=-122.518075", {
 	  		header: {
 	    	"Accept-Language": "en_US",
@@ -39,7 +47,7 @@ class API {
 		});
 	let json = await response.json();
 	return json;
-  }
+  } */
 
 }
 
