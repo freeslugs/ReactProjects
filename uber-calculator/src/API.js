@@ -6,21 +6,20 @@ class API {
     return json.results[0].geometry.location;
   }
 
-  static async matrix(origin, destination){
+  static async matrix(start, destination){
 	  try{
     let url = "http://localhost:8000";
-    console.log("1");
     let response = await fetch(url, 
           {method: 'GET',
           headers: {
-            'origin': origin,
+            'start': start,
             'destination': destination
           }
         });
     let json = await response.json();
-    await console.log(json);
-    let output = JSON.stringify(json);
-    return output;
+    // await console.log(json);
+    //let output = JSON.stringify(json);
+    return json;
   }
   catch(error){
     console.log(error);
@@ -31,10 +30,10 @@ class API {
   		//Average Price for an UberX in USD
   		var initialPrice=.4;
   		var serviceCost=1.58;
-  		var priceMilage=(distance*.97);
-  		var priceDuration=duration*.14;
+  		var priceMilage=((distance/1606.1565217391)*.97);
+  		var priceDuration=(duration/60)*.14;
   		var price = initialPrice + serviceCost + priceMilage + priceDuration;
-  		return price;
+  		return price.toFixed(2);
   }
 
  /* static async uberAPI(){
