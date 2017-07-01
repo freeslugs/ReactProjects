@@ -11,7 +11,8 @@ class AddressForm extends React.Component{
 			generatedAddresses:{
 				start: null,
 				destination: null
-			}
+			},
+			iframe: null
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,20 +20,22 @@ class AddressForm extends React.Component{
 	
 
 	async handleSubmit(event){
+		//const iframe = `<iframe width="400" height="400" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDKAHBiaEKc8P5qZzvl7d_PJqMKSermmag&#10;&amp;origin=${NYC}&amp;destination=NYT" allowFullScreen="" />`;
 		var getOuput = await fareOutput(this.startInput.value, this.destinationInput.value, event);
-
 		this.setState({
 			fare: `$${getOuput.fare}`,
 			generatedAddresses:{
 				start: `${getOuput.generatedAddresses.start}`,
 				destination: `${getOuput.generatedAddresses.destination}`
-			}
+			},
+			iframe: `<iframe width="400" height="400" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDKAHBiaEKc8P5qZzvl7d_PJqMKSermmag&#10;&amp;origin=${getOuput.generatedAddresses.start}&amp;destination=${getOuput.generatedAddresses.destination}" allowFullScreen="" />`
 		});
 	}
 
-	
-
 	render(){
+		
+		var mapIframe = this.state.iframe;
+
 		if(this.state.fare != null){
 			var outputHeader = "Output:",
 			fareHeader = "Fare:",
@@ -69,8 +72,7 @@ class AddressForm extends React.Component{
 					<b>{destinationHeader}</b>
 					{this.state.generatedAddresses.destination}
 				</p>
-					{<iframe width="400" height="400" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDKAHBiaEKc8P5qZzvl7d_PJqMKSermmag&#10;&amp;origin=NYC&amp;destination=NYT"
-					allowFullScreen="" />}
+					<div dangerouslySetInnerHTML={{__html: mapIframe}} />
 			</div>
 			);
 	}
