@@ -12,7 +12,11 @@ class AddressForm extends React.Component{
 				start: null,
 				destination: null
 			},
-			iframe: null
+			iframe: null,
+			weather: {
+				start: null,
+				destination: null
+			}
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,13 +26,28 @@ class AddressForm extends React.Component{
 	async handleSubmit(event){
 		//const iframe = `<iframe width="400" height="400" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDKAHBiaEKc8P5qZzvl7d_PJqMKSermmag&#10;&amp;origin=${NYC}&amp;destination=NYT" allowFullScreen="" />`;
 		var getOuput = await fareOutput(this.startInput.value, this.destinationInput.value, event);
+		
+		console.log("START VALUE: " + this.startInput.value);
+		console.log("DESTINATION VALUE: " + this.destinationInput.value);
+
+		var generatedStartAddress = getOuput.generatedAddresses.start;
+		var generatedDestinationAddress = getOuput.generatedAddresses.destination;
+
+		var startWeather = await API.weather(`${generatedStartAddress}`);
+		var destinationWeather = await API.weather(`${generatedDestinationAddress}`);
+
+
 		this.setState({
 			fare: `$${getOuput.fare}`,
 			generatedAddresses:{
-				start: `${getOuput.generatedAddresses.start}`,
-				destination: `${getOuput.generatedAddresses.destination}`
+				start: `${generatedStartAddress}`,
+				destination: `${generatedDestinationAddress}`
 			},
-			iframe: `<iframe width="400" height="400" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDKAHBiaEKc8P5qZzvl7d_PJqMKSermmag&#10;&amp;origin=${getOuput.generatedAddresses.start}&amp;destination=${getOuput.generatedAddresses.destination}" allowFullScreen="" />`
+			iframe: `<iframe width="400" height="400" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDKAHBiaEKc8P5qZzvl7d_PJqMKSermmag&#10;&amp;origin=${getOuput.generatedAddresses.start}&amp;destination=${getOuput.generatedAddresses.destination}" allowFullScreen="" />`,
+			weather: {
+				start: `): ${startWeather}`,
+				destination: `): ${destinationWeather}`
+			}
 		});
 	}
 
@@ -41,10 +60,13 @@ class AddressForm extends React.Component{
 			fareHeader = "Fare:",
 			addressesHeader = "Addresses: ",
 			startHeader = "Start: ",
-			destinationHeader = "Destination: ";
+			destinationHeader = "Destination: ",
+			weatherHeader = "Weather On Route: ",
+			weatherStartHeader = "Start: (",
+			weatherDestinationHeader = "Destination: (";
 		}
 		else{
-			var outputHeader, fareHeader, addressesHeader, startHeader, destinationHeader;
+			var outputHeader, fareHeader, addressesHeader, startHeader, destinationHeader, weatherHeader, weatherDestinationHeader, weatherStartHeader;
 		}
 
 		return(
@@ -60,7 +82,7 @@ class AddressForm extends React.Component{
 				</form>
 				<br />
 				<h2>{outputHeader}</h2>
-				<p> 
+				<p align="left"> 
 					<b> {fareHeader} </b>{this.state.fare}  <br />
 					<b> {addressesHeader} </b> <br />
 					
@@ -73,6 +95,17 @@ class AddressForm extends React.Component{
 					{this.state.generatedAddresses.destination}
 				</p>
 					<div dangerouslySetInnerHTML={{__html: mapIframe}} />
+
+					<br />
+					<br />
+				<h2> {weatherHeader} </h2>
+				<p align="left">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<b> {weatherStartHeader}</b>{this.state.generatedAddresses.start}{this.state.weather.start} <br />
+
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<b> {weatherDestinationHeader}</b>{this.state.generatedAddresses.destination}{this.state.weather.destination}
+				</p>
 			</div>
 			);
 	}

@@ -34,8 +34,8 @@ app.get('/', async function(req, res){
 		let distanceString = JSON.stringify(distance);
 
 		let generatedAddresses = {
-			start: `${json.destination_addresses}`,
-			destination: `${json.origin_addresses}`
+			start: `${json.origin_addresses}`,
+			destination: `${json.destination_addresses}`
 		};
 		
 		console.log(generatedAddresses);

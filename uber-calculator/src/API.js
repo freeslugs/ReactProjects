@@ -48,6 +48,19 @@ class API {
 	return json;
   } */
 
+
+  static async weather(address){
+    try{
+      let url = `http://api.wunderground.com/api/${process.env.REACT_APP_WEATHER_TOKEN}/conditions/q/${address}.json`
+      let response = await fetch(url);
+      let json = await response.json();
+      return json.current_observation.weather;
+    }
+    catch(error){
+      return `Cannot Load Weather from ${address}, try again soon. If this problem persists, please try putting in the full addresses.`
+    }
+  }
+
 }
 
 export default API;
