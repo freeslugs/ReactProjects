@@ -19,14 +19,16 @@ app.use(function (req, res, next) {
     next();
 });
 
-
+// TODO: Specific routes for different API's
+// e.g. app.get('/matrix', async function(req, res){ ...
 
 app.get('/', async function(req, res){
+	console.log(process.env)
 	try{
 		let url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${start}&destinations=${destination}&mode=driving&language=en-EN&key=${process.env.REACT_APP_GOOGLE_TOKEN_MATRIX}`;
 		let response = await fetch(url);
 		let json = await response.json();
-		
+		console.log(json)
 		let duration = json.rows[0].elements[0].duration.value;
 		let durationString = JSON.stringify(duration);
 		
@@ -41,10 +43,10 @@ app.get('/', async function(req, res){
 		console.log(generatedAddresses);
 
 		let output = {
-					'distance': `${distanceString}`, 
-					'duration': `${durationString}`,
-					'generatedAddresses': generatedAddresses
-					};
+			'distance': `${distanceString}`, 
+			'duration': `${durationString}`,
+			'generatedAddresses': generatedAddresses
+		};
 
 		console.log("JSON loaded");
 		await res.send(output);
@@ -53,6 +55,7 @@ app.get('/', async function(req, res){
 	}
 	catch(error){
 		console.log(error);
+		// TODO: send error 
 	}
 });
 

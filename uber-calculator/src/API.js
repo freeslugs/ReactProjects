@@ -1,4 +1,5 @@
 class API {
+  // TODO: move this code to server
   static async geoCode(address){
     let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GOOGLE_TOKEN_GEOCODE}`;
     let response = await fetch(url);
@@ -48,7 +49,7 @@ class API {
 	return json;
   } */
 
-
+  // TODO: Move this code to server
   static async weather(address){
     try{
       let url = `http://api.wunderground.com/api/${process.env.REACT_APP_WEATHER_TOKEN}/conditions/q/${address}.json`
