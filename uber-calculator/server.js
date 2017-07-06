@@ -23,12 +23,10 @@ app.use(function (req, res, next) {
 // e.g. app.get('/matrix', async function(req, res){ ...
 
 app.get('/', async function(req, res){
-	console.log(process.env)
 	try{
 		let url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${start}&destinations=${destination}&mode=driving&language=en-EN&key=${process.env.REACT_APP_GOOGLE_TOKEN_MATRIX}`;
 		let response = await fetch(url);
 		let json = await response.json();
-		console.log(json)
 		let duration = json.rows[0].elements[0].duration.value;
 		let durationString = JSON.stringify(duration);
 		
